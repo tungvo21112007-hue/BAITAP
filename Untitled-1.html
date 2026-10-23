@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>28-ThanhTung-CSS-B1</title>
+    <style>
+        /* Các định dạng CSS của bài 1 thì đặt sau #bai1  */
+        /* Các định dạng CSS của bài 2 thì đặt sau #bai2  */
+
+        /* =====================================================
+           BÀI 1 - FORM ĐẶT LỊCH TƯ VẤN
+           ===================================================== */
+        #bai1 {
+            max-width: 720px;
+            margin: 24px auto;
+            font-family: "Segoe UI", system-ui, -apple-system, "Noto Sans", Arial, sans-serif;
+            color: #1e293b;
+        }
+
+        /* Khung form: đổi viền xanh ngọc khi có phần tử bên trong nhận focus */
+        #bai1 form {
+            padding: 24px;
+            border: 2px solid #cbd5e1;
+            border-radius: 12px;
+        }
+        #bai1 form:focus-within {
+            border-color: #0d9488;
+        }
+
+        #bai1 h2 {
+            margin: 0 0 12px;
+            font-size: 1.5rem;
+        }
+        #bai1 p {
+            margin: 0 0 8px;
+            color: #64748b;
+        }
+
+        #bai1 .field {
+            margin-bottom: 16px;
+        }
+        #bai1 label {
+            display: block;
+            margin-bottom: 6px;
+            color: #334155;
+        }
+
+        /* Ô nhập liệu chung: text, email, number */
+        #bai1 :is(input[type="text"], input[type="email"], input[type="number"]) {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 10px;
+            border: 2px solid #ccc;
+            border-radius: 6px;
+            font: inherit;
+            line-height: 1.5;
+        }
+
+        /* Trường bắt buộc: viền trái tím / Trường tùy chọn: viền trái xám */
+        #bai1 :is(input[type="text"], input[type="email"], input[type="number"]):required {
+            border-left: 5px solid #6f42c1;
+        }
+        #bai1 :is(input[type="text"], input[type="email"], input[type="number"]):optional {
+            border-left: 5px solid #888888;
+        }
+
+        /* Ô Email: chỉ áp dụng cho type="email" */
+        #bai1 input[type="email"]:invalid {
+            border-bottom: 4px solid red;
+        }
+        #bai1 input[type="email"]:valid {
+            border-bottom: 4px solid green;
+        }
+
+        /* Ô Tuổi: xanh nhạt khi hợp lệ, hồng nhạt khi ngoài phạm vi */
+        #bai1 input[type="number"]:valid {
+            background-color: #e8fbf0;
+        }
+        #bai1 input[type="number"]:invalid {
+            background-color: #ffe4ec;
+        }
+
+        /* Mã hồ sơ: dùng thuộc tính [readonly], không dùng :read-only */
+        #bai1 input[type="text"][readonly] {
+            background-color: #e2e8f0;
+            font-weight: bold;
+        }
+
+        /* Ô Ưu đãi (disabled) */
+        #bai1 input:disabled {
+            background-color: #f8fafc;
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Nhãn Họ tên nổi: mặc định thu nhỏ ở trên; chỉ nằm trong ô khi đang rỗng và chưa focus */
+        #bai1 .float-field {
+            position: relative;
+            margin-top: 32px;
+            margin-bottom: 16px;
+        }
+        #bai1 .float-field label {
+            position: absolute;
+            top: -26px;
+            left: 0;
+            margin: 0;
+            font-size: 0.875rem;
+            line-height: 1.5;
+            transition: top 0.15s ease, left 0.15s ease, font-size 0.15s ease;
+        }
+        #bai1 .float-field input:placeholder-shown:not(:focus) + label {
+            top: 12px;
+            left: 15px;
+            font-size: 1rem;
+            color: #64748b;
+            pointer-events: none;
+        }
+
+        /* Focus bàn phím cho ô nhập và nút */
+        #bai1 :is(input, button):focus-visible {
+            outline: 3px solid orange;
+            outline-offset: 2px;
+        }
+
+        /* Fieldset hình thức tư vấn */
+        #bai1 fieldset {
+            margin: 16px 0;
+            padding: 8px 16px 12px;
+            border: 1px solid #94a3b8;
+        }
+        #bai1 .choice {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            margin: 8px 0;
+        }
+        #bai1 .choice label {
+            display: inline-block;
+            margin: 0;
+            padding: 1px 3px;
+        }
+
+        /* Checkbox / radio được chọn: nhãn liền sau nền #dcfce7, chữ đậm */
+        #bai1 :is(input[type="checkbox"], input[type="radio"]):checked + label {
+            background-color: #dcfce7;
+            font-weight: bold;
+        }
+        /* Radio mặc định: gạch chân tím nét đứt, kể cả khi người dùng chọn radio khác */
+        #bai1 input[type="radio"]:default + label {
+            border-bottom: 2px dashed #6f42c1;
+        }
+
+        /* Nút Khôi phục */
+        #bai1 button {
+            margin-top: 12px;
+            padding: 10px 20px;
+            border: 0;
+            border-radius: 6px;
+            background-color: #075985;
+            color: #fff;
+            font: inherit;
+            cursor: pointer;
+            transition: background-color 0.15s ease;
+        }
+        #bai1 button:hover {
+            background-color: #0284c7;
+        }
+        #bai1 button:active {
+            transform: translateY(2px);
+        }
+        /* Giữ nguyên outline khi vừa focus bàn phím vừa hover */
+        #bai1 button:focus-visible:hover {
+            outline: 3px solid orange;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            #bai1 * {
+                transition: none;
+            }
+        }
+
+        /* =====================================================
+           BÀI 2 - BẢNG GIÁ CÁC GÓI DỊCH VỤ
+           ===================================================== */
+        #bai2 {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            align-items: stretch;
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 8px;
+            font-family: "Segoe UI", system-ui, -apple-system, "Noto Sans", Arial, sans-serif;
+            color: #1e293b;
+        }
+
+        #bai2 .card {
+            flex: 1 1 260px;
+            max-width: 340px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            padding: 24px;
+            background-color: #fff;
+            border: 2px solid #cbd5e1;
+            border-radius: 12px;
+        }
+
+        /* Gói được đề xuất: viền kép xanh ngọc, dải cam phía trên */
+        #bai2 .card--featured {
+            background-color: #f0f7ff;
+            border: 2px solid #0d9488;
+            border-top: 4px solid #f97316;
+            box-shadow: 0 0 0 4px #fff, 0 0 0 6px #0d9488;
+        }
+
+        #bai2 .badge-row {
+            min-height: 28px;
+            margin-bottom: 12px;
+        }
+        #bai2 .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 999px;
+            background-color: #fef3c7;
+            color: #92400e;
+            font-size: 0.875rem;
+        }
+
+        /* Tiêu đề và giá */
+        #bai2 h2,
+        #bai2 .price {
+            color: #0f766e;
+            font-weight: bold;
+        }
+        #bai2 h2 {
+            margin: 0 0 12px;
+            font-size: 1.5rem;
+        }
+        #bai2 .price {
+            margin: 16px 0 20px;
+            font-size: 2.25rem;
+            line-height: 1.2;
+        }
+        #bai2 p {
+            margin: 0;
+        }
+
+        /* Danh sách tính năng */
+        #bai2 ul {
+            margin: 0 0 20px;
+            padding: 0;
+            list-style: none;
+        }
+        #bai2 li {
+            margin: 10px 0;
+        }
+        #bai2 li::before {
+            content: "✓";
+            margin-right: 8px;
+            color: #0d9488;
+        }
+        #bai2 li.is-off {
+            color: #64748b;
+            text-decoration: line-through;
+        }
+        #bai2 li.is-off::before {
+            content: "×";
+        }
+
+        /* Khu vực chọn gói + nút luôn nằm cuối thẻ */
+        #bai2 .actions {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 12px;
+            margin-top: auto;
+        }
+        #bai2 .choice {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        #bai2 .choice label {
+            padding: 1px 3px;
+        }
+        #bai2 input[type="radio"]:checked + label {
+            background-color: #dcfce7;
+            font-weight: bold;
+        }
+        #bai2 input[type="radio"]:disabled + label {
+            color: #94a3b8;
+            cursor: not-allowed;
+        }
+
+        /* Nút bấm */
+        #bai2 button {
+            padding: 12px 20px;
+            border: 0;
+            border-radius: 6px;
+            background-color: #0369a1;
+            color: #fff;
+            font: inherit;
+            cursor: pointer;
+            transition: background-color 0.15s ease;
+        }
+        #bai2 button:hover {
+            background-color: #0284c7;
+        }
+        #bai2 button:disabled {
+            background-color: #94a3b8;
+            cursor: not-allowed;
+        }
+        #bai2 :is(input, button):focus-visible {
+            outline: 3px solid orange;
+            outline-offset: 2px;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            #bai2 * {
+                transition: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- BÀI 1: FORM ĐẶT LỊCH TƯ VẤN -->
+    <div id="bai1">
+        <form>
+            <h2>Đặt lịch tư vấn</h2>
+            <p>Các mục * là bắt buộc. Biểu mẫu minh họa không gửi dữ liệu.</p>
+
+            <div class="float-field">
+                <input type="text" id="hoten" name="hoten" placeholder=" " required>
+                <label for="hoten">Họ tên *</label>
+            </div>
+
+            <div class="field">
+                <label for="email">Email *</label>
+                <input type="email" id="email" name="email" placeholder="ban@example.com" required>
+            </div>
+
+            <div class="field">
+                <label for="tuoi">Tuổi (18–60) *</label>
+                <input type="number" id="tuoi" name="tuoi" min="18" max="60" value="22" required>
+            </div>
+
+            <div class="field">
+                <label for="mahoso">Mã hồ sơ</label>
+                <input type="text" id="mahoso" name="mahoso" value="TV-2026-108" readonly>
+            </div>
+
+            <div class="field">
+                <label for="uudai">Ưu đãi</label>
+                <input type="text" id="uudai" name="uudai" placeholder="Chưa được mở" disabled>
+            </div>
+
+            <div class="field">
+                <label for="ghichu">Ghi chú tùy chọn</label>
+                <input type="text" id="ghichu" name="ghichu">
+            </div>
+
+            <fieldset>
+                <legend>Hình thức tư vấn</legend>
+                <div class="choice">
+                    <input type="radio" id="tuvan-online" name="hinhthuc" value="online" checked>
+                    <label for="tuvan-online">Trực tuyến · mặc định</label>
+                </div>
+                <div class="choice">
+                    <input type="radio" id="tuvan-trungtam" name="hinhthuc" value="trungtam">
+                    <label for="tuvan-trungtam">Tại trung tâm</label>
+                </div>
+            </fieldset>
+
+            <div class="choice">
+                <input type="checkbox" id="dongy" name="dongy" required>
+                <label for="dongy">Tôi đồng ý được liên hệ tư vấn *</label>
+            </div>
+
+            <button type="reset">Khôi phục</button>
+        </form>
+    </div>
+
+    <!-- BÀI 2: BẢNG GIÁ CÁC GÓI DỊCH VỤ -->
+    <div id="bai2">
+        <section class="card">
+            <div class="badge-row"></div>
+            <h2>Starter</h2>
+            <p>Dành cho dự án cá nhân.</p>
+            <p class="price">99.000 đ</p>
+            <ul>
+                <li>10 GB lưu trữ</li>
+                <li>1 website</li>
+                <li class="is-off">Hỗ trợ ưu tiên</li>
+            </ul>
+            <div class="actions">
+                <div class="choice">
+                    <input type="radio" id="goi-starter" name="goi" value="starter">
+                    <label for="goi-starter">Chọn Starter</label>
+                </div>
+                <button type="button">Xem cách bắt đầu</button>
+            </div>
+        </section>
+
+        <section class="card card--featured">
+            <div class="badge-row"><span class="badge">Được đề xuất</span></div>
+            <h2>Professional</h2>
+            <p>Dành cho nhóm đang phát triển.</p>
+            <p class="price">249.000 đ</p>
+            <ul>
+                <li>100 GB lưu trữ</li>
+                <li>10 website</li>
+                <li>Hỗ trợ ưu tiên</li>
+            </ul>
+            <div class="actions">
+                <div class="choice">
+                    <input type="radio" id="goi-pro" name="goi" value="professional" checked>
+                    <label for="goi-pro">Chọn Professional</label>
+                </div>
+                <button type="button">Tìm hiểu nâng cấp</button>
+            </div>
+        </section>
+
+        <section class="card">
+            <div class="badge-row"><span class="badge">Sắp ra mắt</span></div>
+            <h2>Enterprise</h2>
+            <p>Dành cho tổ chức lớn.</p>
+            <p class="price">Liên hệ</p>
+            <ul>
+                <li>Hạ tầng riêng</li>
+                <li>Quản trị tập trung</li>
+                <li>Hỗ trợ chuyên biệt</li>
+            </ul>
+            <div class="actions">
+                <div class="choice">
+                    <input type="radio" id="goi-enterprise" name="goi" value="enterprise" disabled>
+                    <label for="goi-enterprise">Chưa mở đăng ký</label>
+                </div>
+                <button type="button" disabled>Sắp ra mắt</button>
+            </div>
+        </section>
+    </div>
+
+</body>
+</html>

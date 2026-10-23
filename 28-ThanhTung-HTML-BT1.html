@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Moon & Jade</title>
+  <style>
+    :root {
+      --navy: #0d1f4d;
+      --navy-2: #132d63;
+      --royal: #1f4ea2;
+      --gold: #f7d77c;
+      --gold-2: #d5a94d;
+      --red: #8f1f2e;
+      --red-2: #c53d4f;
+      --jade: #8ac7b2;
+      --cream: #f9f4ee;
+      --ink: #1e2433;
+      --muted: #66708a;
+      --card: rgba(255,255,255,0.12);
+      --glass: rgba(11, 22, 47, 0.48);
+      --line: rgba(255,255,255,0.18);
+      --shadow: 0 25px 50px rgba(10, 18, 42, 0.33);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background:
+        radial-gradient(circle at top, rgba(255,212,113,0.18), transparent 28%),
+        linear-gradient(180deg, #081833 0%, #0e1f4e 18%, #1a2f68 32%, #0c1633 100%);
+      color: white;
+      line-height: 1.6;
+    }
+
+    img { max-width: 100%; display: block; }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; }
+
+    .container {
+      width: min(1200px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      background: rgba(10, 18, 42, 0.28);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 76px;
+      gap: 20px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .brand-mark {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, #fffdf4, var(--gold) 35%, #d2a64a 68%, #a6782c 100%);
+      box-shadow: 0 0 15px rgba(247, 215, 124, 0.7);
+    }
+
+    .nav-menu {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      color: rgba(255,255,255,0.82);
+      font-size: 0.96rem;
+    }
+
+    .nav-menu a:hover { color: var(--gold); }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn {
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 999px;
+      padding: 0.8rem 1.5rem;
+      font-weight: 700;
+      transition: 0.25s ease;
+      cursor: pointer;
+      background: transparent;
+      color: white;
+    }
+
+    .btn.primary {
+      background: linear-gradient(135deg, var(--gold) 0%, #f3d17b 25%, #d9a643 100%);
+      color: #1b1731;
+      border: none;
+      box-shadow: 0 15px 32px rgba(214, 162, 76, 0.35);
+    }
+
+    .btn.primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 20px 40px rgba(214, 162, 76, 0.5);
+    }
+
+    .hero {
+      position: relative;
+      max-width: 1400px;
+      margin: 0 auto;
+      min-height: 760px;
+      padding: 58px 0 50px;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 30px 60px auto auto;
+      width: 420px;
+      height: 420px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,220,146,0.18), rgba(255,255,255,0) 70%);
+      filter: blur(18px);
+    }
+
+    .hero-grid {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 26px;
+      align-items: center;
+      min-height: 660px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid var(--line);
+      color: #f7e2a9;
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 28px;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #ffebba, #d1a64d);
+      box-shadow: 0 0 14px rgba(255, 217, 115, 0.8);
+    }
+
+    h1 {
+      margin: 0 0 18px;
+      font-size: clamp(3rem, 5vw, 5.5rem);
+      line-height: 0.95;
+      letter-spacing: -0.04em;
+      max-width: 650px;
+    }
+
+    .hero-copy p {
+      max-width: 620px;
+      color: rgba(255,255,255,0.75);
+      font-size: 1.1rem;
+      margin: 0;
+    }
+
+    .cta-row {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-top: 34px;
+    }
+
+    .meta-row {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(120px, 1fr));
+      gap: 18px;
+      margin-top: 42px;
+      max-width: 540px;
+    }
+
+    .stat {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.09);
+      border-radius: 18px;
+      padding: 18px 16px;
+      text-align: center;
+      backdrop-filter: blur(6px);
+    }
+
+    .stat strong {
+      display: block;
+      font-size: clamp(1.5rem, 2vw, 2rem);
+      color: white;
+      margin-bottom: 5px;
+    }
+
+    .stat span {
+      color: rgba(255,255,255,0.7);
+      font-size: 0.86rem;
+    }
+
+    .visual-wrap {
+      position: relative;
+      height: 710px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .moon {
+      position: relative;
+      width: 450px;
+      height: 450px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 32% 30%, #fffef5 0%, #fef3d0 18%, #f1dca4 42%, #e4ba5a 68%, #c78d2c 100%);
+      box-shadow:
+        inset -26px -18px 38px rgba(128, 78, 16, 0.22),
+        0 0 30px rgba(255, 229, 162, 0.6),
+        0 0 90px rgba(247, 188, 84, 0.38);
+      animation: floatMoon 7s ease-in-out infinite;
+    }
+
+    .moon::before,
+    .moon::after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.12);
+    }
+
+    .moon::before {
+      width: 70px;
+      height: 70px;
+      left: 110px;
+      top: 140px;
+    }
+
+    .moon::after {
+      width: 110px;
+      height: 110px;
+      right: 90px;
+      bottom: 90px;
+    }
+
+    .rabbit {
+      position: absolute;
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      background: linear-gradient(145deg, #bfead7, #76bca1 58%, #508f7b 100%);
+      box-shadow: inset -12px -10px 20px rgba(34,70,59,0.2), 0 16px 30px rgba(14,34,46,0.24);
+      animation: floatRabbit 5s ease-in-out infinite;
+    }
+
+    .rabbit::before,
+    .rabbit::after {
+      content: "";
+      position: absolute;
+      background: #dff8ee;
+      border-radius: 50%;
+    }
+
+    .rabbit::before {
+      width: 22px;
+      height: 22px;
+      left: 18px;
+      top: 14px;
+      box-shadow: 30px 0 0 #dff8ee;
+    }
+
+    .rabbit::after {
+      width: 14px;
+      height: 14px;
+      bottom: -8px;
+      left: 38px;
+      background: #000;
+      box-shadow: 0 0 0 5px rgba(255,255,255,0.18);
+    }
+
+    .rabbit.r1 { left: 12%; top: 18%; transform: scale(1.15); }
+    .rabbit.r2 { right: 20%; top: 22%; animation-delay: 1s; }
+    .rabbit.r3 { left: 36%; bottom: 14%; animation-delay: 2s; }
+    .rabbit.r4 { right: 12%; bottom: 22%; transform: scale(0.82); animation-delay: 1.6s; }
+
+    . lantern {
+      position: absolute;
+      width: 58px;
+      height: 90px;
+      border-radius: 26px 26px 18px 18px;
+      background: linear-gradient(180deg, #f9bf69, #dd8c2a 52%, #a65024 100%);
+      box-shadow: inset 0 0 18px rgba(255,255,255,0.2), 0 14px 26px rgba(168, 89, 20, 0.35);
+      animation: sway 5s ease-in-out infinite;
+    }
+
+    .lantern::before {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: -16px;
+      width: 4px;
+      height: 18px;
+      transform: translateX(-50%);
+      background: rgba(255,255,255,0.55);
+    }
+
+    .lantern::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      bottom: -18px;
+      width: 1px;
+      height: 18px;
+      transform: translateX(-50%);
+      background: rgba(255,255,255,0.3);
+    }
+
+    .lantern.l1 { left: 3%; top: 8%; transform: rotate(-10deg); }
+    .lantern.l2 { right: 8%; top: 9%; transform: rotate(12deg); animation-delay: 1.2s; }
+    .lantern.l3 { left: 8%; bottom: 9%; transform: rotate(-18deg); animation-delay: 2s; }
+    .lantern.l4 { right: 18%; bottom: 14%; transform: rotate(16deg); animation-delay: 1.4s; }
+
+    .mooncake-card {
+      position: absolute;
+      right: 36px;
+      bottom: 56px;
+      width: 180px;
+      height: 210px;
+      border-radius: 28px;
+      background: linear-gradient(140deg, rgba(255,255,255,0.18), rgba(255,255,255,0.04));
+      border: 1px solid rgba(255,255,255,0.16);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(8px);
+      padding: 18px 16px 14px;
+      transform: rotate(12deg);
+    }
+
+    .mooncake {
+      position: relative;
+      width: 118px;
+      height: 118px;
+      margin: 10px auto 0;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 32%, #f9d17d 0%, #e8b75c 35%, #ba7d2a 82%, #8d5d16 100%);
+      box-shadow: inset -10px -10px 18px rgba(94, 55, 0, 0.2);
+    }
+
+    .mooncake::before {
+      content: "";
+      position: absolute;
+      inset: 18px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #f0e9d7 0%, #e4d3b3 35%, #c79536 100%);
+      box-shadow: inset 0 0 0 8px rgba(255,255,255,0.18);
+    }
+
+    .mooncake::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background: repeating-radial-gradient(circle at center, rgba(255,255,255,0.18), rgba(255,255,255,0.18) 2px, transparent 2px, transparent 8px);
+    }
+
+    .card-label {
+      display: block;
+      text-align: center;
+      font-size: 0.74rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.8);
+      margin-top: 16px;
+    }
+
+    .card-price {
+      display: block;
+      text-align: center;
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-top: 6px;
+      color: var(--gold);
+    }
+
+    .section {
+      padding: 100px 0;
+    }
+
+    .section-header {
+      width: min(760px, 100%);
+      margin: 0 auto 34px;
+      text-align: center;
+    }
+
+    .section-header .tag {
+      display: inline-block;
+      margin-bottom: 12px;
+      color: #f5d47c;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      font-size: 0.76rem;
+      font-weight: 700;
+    }
+
+    .section-header h2 {
+      margin: 0;
+      font-size: clamp(2.2rem, 4vw, 3.2rem);
+      line-height: 1.1;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(210px, 1fr));
+      gap: 24px;
+      width: min(1200px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .feature {
+      position: relative;
+      padding: 26px 22px 22px;
+      border-radius: 26px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
+      border: 1px solid rgba(255,255,255,0.12);
+      box-shadow: 0 16px 40px rgba(13, 19, 39, 0.18);
+      overflow: hidden;
+    }
+
+    .feature::before {
+      content: "";
+      position: absolute;
+      width: 120px;
+      height: 120px;
+      right: -18px;
+      top: -18px;
+      border-radius: 50%;
+      background: rgba(247, 215, 124, 0.08);
+    }
+
+    .feature-icon {
+      width: 52px;
+      height: 52px;
+      display: grid;
+      place-items: center;
+      border-radius: 16px;
+      margin-bottom: 18px;
+      font-size: 1.4rem;
+      background: linear-gradient(135deg, rgba(247,215,124,0.25), rgba(255,255,255,0.08));
+      border: 1px solid rgba(247,215,124,0.3);
+    }
+
+    .feature h3 {
+      margin: 0 0 10px;
+      font-size: 1.4rem;
+    }
+
+    .feature p {
+      margin: 0;
+      color: rgba(255,255,255,0.72);
+    }
+
+    .collection {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 26px;
+      width: min(1200px, calc(100% - 32px));
+      margin: 0 auto;
+      align-items: stretch;
+    }
+
+    .showcase {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+
+    .showcase-card {
+      position: relative;
+      min-height: 290px;
+      padding: 22px;
+      border-radius: 30px;
+      background: linear-gradient(145deg, rgba(255,255,255,0.14), rgba(255,255,255,0.04));
+      border: 1px solid rgba(255,255,255,0.12);
+      overflow: hidden;
+    }
+
+    .showcase-card:nth-child(1) {
+      background: linear-gradient(135deg, rgba(20,48,101,0.9), rgba(77,24,38,0.82));
+    }
+
+    .showcase-card:nth-child(2) {
+      background: linear-gradient(135deg, rgba(120,76,28,0.8), rgba(22,40,83,0.9));
+    }
+
+    .mini-moon {
+      position: absolute;
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 30%, #fff8d9, #f0cd6c 48%, #d69d38 100%);
+      right: -12px;
+      top: -8px;
+      box-shadow: 0 0 30px rgba(247, 215, 124, 0.35);
+    }
+
+    .showcase-card h3 {
+      position: relative;
+      z-index: 1;
+      margin: 0 0 8px;
+      font-size: 1.6rem;
+    }
+
+    .showcase-card p {
+      position: relative;
+      z-index: 1;
+      margin: 0 0 20px;
+      color: rgba(255,255,255,0.75);
+    }
+
+    .product-box {
+      position: absolute;
+      bottom: 20px;
+      left: 26px;
+      width: 150px;
+      height: 150px;
+      border-radius: 34px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.18);
+      transform: rotate(-12deg);
+      box-shadow: var(--shadow);
+    }
+
+    .product-box::before {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 86px;
+      height: 86px;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, #fef8d9, #e6c05a 45%, #a5721d 100%);
+    }
+
+    .promo-panel {
+      background: linear-gradient(145deg, rgba(255,255,255,0.14), rgba(255,255,255,0.04));
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 30px;
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 100%;
+    }
+
+    .promo-panel .badge {
+      display: inline-block;
+      width: fit-content;
+      padding: 7px 12px;
+      border-radius: 999px;
+      background: rgba(247,215,124,0.14);
+      border: 1px solid rgba(247,215,124,0.2);
+      color: #f6d888;
+      font-size: 0.76rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .promo-panel h3 {
+      margin: 18px 0 12px;
+      font-size: clamp(2rem, 3vw, 2.8rem);
+      line-height: 1;
+    }
+
+    .promo-panel p {
+      margin: 0 0 24px;
+      color: rgba(255,255,255,0.76);
+    }
+
+    .price-tag {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      margin-bottom: 12px;
+      font-size: 2.1rem;
+      font-weight: 800;
+      color: var(--gold);
+    }
+
+    .price-tag small {
+      font-size: 0.88rem;
+      color: rgba(255,255,255,0.7);
+    }
+
+    .review-block {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 18px;
+      color: rgba(255,255,255,0.74);
+    }
+
+    .stars {
+      letter-spacing: 0.1em;
+      color: #ffd76a;
+      font-size: 1.1rem;
+    }
+
+    .cta-box {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 34px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 22px;
+      border-radius: 30px;
+      background: linear-gradient(135deg, rgba(247,215,124,0.15), rgba(30,62,124,0.45));
+      border: 1px solid rgba(247,215,124,0.18);
+      box-shadow: var(--shadow);
+      flex-wrap: wrap;
+    }
+
+    .cta-message h3 {
+      margin: 0 0 8px;
+      font-size: clamp(1.7rem, 2.5vw, 2.5rem);
+    }
+
+    .cta-message p {
+      margin: 0;
+      color: rgba(255,255,255,0.76);
+    }
+
+    footer {
+      padding: 42px 0 70px;
+    }
+
+    .footer-row {
+      width: min(1200px, calc(100% - 32px));
+      margin: 0 auto;
+      padding-top: 22px;
+      border-top: 1px solid rgba(255,255,255,0.12);
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      color: rgba(255,255,255,0.7);
+      flex-wrap: wrap;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    @keyframes floatMoon {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-18px); }
+    }
+
+    @keyframes sway {
+      0%, 100% { transform: rotate(-10deg) translateY(0); }
+      50% { transform: rotate(10deg) translateY(-8px); }
+    }
+
+    @keyframes floatRabbit {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-16px) rotate(4deg); }
+    }
+
+    @media (max-width: 980px) {
+      .hero-grid,
+      .collection,
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .visual-wrap {
+        min-height: 560px;
+      }
+
+      .moon {
+        width: 340px;
+        height: 340px;
+      }
+
+      .nav {
+        flex-wrap: wrap;
+        justify-content: center;
+        padding: 14px 0;
+      }
+
+      .nav-menu {
+        order: 3;
+        width: 100%;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .hero {
+        min-height: 640px;
+      }
+
+      .cta-row, .nav-actions {
+        width: 100%;
+      }
+
+      .cta-row .btn, .nav-actions .btn {
+        flex: 1 1 100%;
+      }
+
+      .meta-row {
+        grid-template-columns: 1fr;
+      }
+
+      .showcase {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container nav">
+      <div class="brand">
+        <span class="brand-mark"></span>
+        <span>Moon & Jade</span>
+      </div>
+
+      <ul class="nav-menu">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#collection">Collection</a></li>
+        <li><a href="#features">Features</a></li>
+        <li><a href="#reviews">Reviews</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <button class="btn">Log in</button>
+        <button class="btn primary">Shop now</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <div class="eyebrow">Mid-Autumn collection 2026</div>
+          <h1>Luxury mooncakes for the night of reunion.</h1>
+          <p>
+            Discover handcrafted mooncakes, jade-inspired gifts, and premium seasonal essentials made for elegant gatherings under the glowing moon.
+          </p>
+
+          <div class="cta-row">
+            <button class="btn primary">Explore collection</button>
+            <button class="btn">View gifting sets</button>
+          </div>
+
+          <div class="meta-row">
+            <div class="stat">
+              <strong>12k+</strong>
+              <span>Orders</span>
+            </div>
+            <div class="stat">
+              <strong>4.9/5</strong>
+              <span>Reviews</span>
+            </div>
+            <div class="stat">
+              <strong>48h</strong>
+              <span>Delivery</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="visual-wrap" aria-label="Moon festival showcase illustration">
+          <div class="lantern l1"></div>
+          <div class="lantern l2"></div>
+          <div class="lantern l3"></div>
+          <div class="lantern l4"></div>
+
+          <div class="rabbit r1"></div>
+          <div class="rabbit r2"></div>
+          <div class="rabbit r3"></div>
+          <div class="rabbit r4"></div>
+
+          <div class="moon"></div>
+
+          <div class="mooncake-card">
+            <div class="mooncake"></div>
+            <span class="card-label">Golden lotus</span>
+            <span class="card-price">$128</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="features">
+      <div class="section-header">
+        <span class="tag">Signature</span>
+        <h2>Crafted to celebrate the harvest moon</h2>
+      </div>
+
+      <div class="features-grid">
+        <article class="feature">
+          <div class="feature-icon">✦</div>
+          <h3>Artisan baked</h3>
+          <p>Small-batch mooncakes with premium fillings, handcrafted in traditional style.</p>
+        </article>
+
+        <article class="feature">
+          <div class="feature-icon">◈</div>
+          <h3>Luxury packaging</h3>
+          <p>Elegant presentation inspired by imperial palace artistry and modern design.</p>
+        </article>
+
+        <article class="feature">
+          <div class="feature-icon">◎</div>
+          <h3>Gift-ready sets</h3>
+          <p>Thoughtful bundles for families, clients, and festive hosting moments.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="collection">
+      <div class="section-header">
+        <span class="tag">Curated</span>
+        <h2>Seasonal collections for every occasion</h2>
+      </div>
+
+      <div class="collection">
+        <div class="showcase">
+          <article class="showcase-card">
+            <div class="mini-moon"></div>
+            <h3>Royal Red</h3>
+            <p>Velvet-smooth fillings and floral aromatic notes.</p>
+            <div class="product-box"></div>
+          </article>
+
+          <article class="showcase-card">
+            <div class="mini-moon"></div>
+            <h3>Jade Gold</h3>
+            <p>Refined, balanced sweetness with a premium finish.</p>
+            <div class="product-box"></div>
+          </article>
+        </div>
+
+        <aside class="promo-panel">
+          <div>
+            <span class="badge">Best seller</span>
+            <h3>Moonlit Gift Box</h3>
+            <p>Curated with handcrafted mooncakes, tea pairings, and limited-edition keepsakes.</p>
+          </div>
+
+          <div>
+            <div class="price-tag">$189 <small>/ set</small></div>
+            <button class="btn primary">Add to cart</button>
+            <div class="review-block">
+              <span class="stars">★★★★★</span>
+              <span>1,280 reviews</span>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section" id="reviews">
+      <div class="section-header">
+        <span class="tag">Loved by customers</span>
+        <h2>Exceptional taste, beautiful gifting</h2>
+      </div>
+
+      <div class="features-grid">
+        <article class="feature">
+          <div class="feature-icon">✧</div>
+          <h3>“Elegant and premium”</h3>
+          <p>“The packaging looks like a luxury boutique collection. The taste is rich and beautifully balanced.”</p>
+        </article>
+
+        <article class="feature">
+          <div class="feature-icon">✦</div>
+          <h3>“Perfect for gifting”</h3>
+          <p>“I bought the Moonlit Gift Box for family and clients. Everyone loved the presentation and flavors.”</p>
+        </article>
+
+        <article class="feature">
+          <div class="feature-icon">❋</div>
+          <h3>“Worth every bite”</h3>
+          <p>“The craftsmanship is outstanding and the ingredients feel premium from the first taste to the last.”</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" style="padding-top: 20px; padding-bottom: 100px;">
+      <div class="cta-box">
+        <div class="cta-message">
+          <h3>Celebrate under the moon with something unforgettable.</h3>
+          <p>Exclusive festival bundles with express delivery and premium gift wrapping.</p>
+        </div>
+        <button class="btn primary">Start shopping</button>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-row">
+      <span>© 2026 Moon & Jade</span>
+      <div class="footer-links">
+        <a href="#">FAQs</a>
+        <a href="#">Shipping</a>
+        <a href="#">Privacy</a>
+        <a href="#">Support</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
